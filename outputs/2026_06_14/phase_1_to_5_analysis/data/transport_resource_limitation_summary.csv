@@ -1,0 +1,6 @@
+﻿information,status,why_needed
+TRN_DEV_ID_PHYSICAL_LOCATION,Missing,TRN_DEV_ID=1~4의 실제 물리 위치/구간 매핑 필요
+AMR_DISPATCH_TIMESTAMPS,Missing,"AMR 호출, 배정, 취소, 대기 상태 로그 필요"
+C2_SLOT_CAPACITY,Missing,C2 완제품 창고 slot capacity와 포화 상태 로그 필요
+OEE_IDLE_DEFINITION,Needs confirmation,IDLE이 정상 대기인지 설비 비가동인지 코드 정의 필요
+BUFFER_STOPPER_CAPACITY,Missing,스토퍼/버퍼별 실제 capacity와 blocked 상태 로그 필요

@@ -1,0 +1,3 @@
+﻿window_type,window_count,processing_p50_sec,processing_p90_sec,rail_events_overlap_mean,other_family_events_mean,overlap_wait_p90_mean
+long,38,915.5255,1957.3469000000014,1121.5263157894738,132.78947368421052,351.77124210526324
+normal,114,423.96500000000003,609.4735000000001,0.0,0.0,0.0

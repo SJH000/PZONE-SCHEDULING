@@ -1,0 +1,5 @@
+﻿metric,value,description
+a4_long_threshold_sec,686.91425,A4 long window 기준
+a4_long_window_count,38,A4 long window 수
+a4_other_family_overlap_ratio_long_vs_normal,133.78947368421052,long window의 다른 제품군 overlap 평균 / normal 평균
+evidence_strength,Strong,A4 blocking 가설 근거 강도

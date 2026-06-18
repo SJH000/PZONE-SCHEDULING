@@ -1,0 +1,3 @@
+﻿area,count,mean_wip,median_wip,max_wip,p90_wip
+BUFFER,230,38.891304347826086,39.0,94,73.1
+FINISHED_STORAGE,82,0.5,0.5,1,1.0

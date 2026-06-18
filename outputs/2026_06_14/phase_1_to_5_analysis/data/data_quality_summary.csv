@@ -1,0 +1,11 @@
+﻿metric,value,description
+total_serial_before_filter,324.0,전체 route 추출 serial 수
+normal_serial_after_filter,294.0,정상 route/prefix 기준 분석 serial 수
+excluded_serial,30.0,제품별 정상 route에서 벗어난 serial 수
+paired_processing_events,2423.0,STR/END 페어링 성공 처리 이벤트 수
+pairing_anomalies,562.0,STR/END 페어링 실패 또는 잔여 이벤트 수
+pairing_success_rate,0.8117252931323283,paired / (paired + anomaly)
+negative_processing_events,0.0,음수 처리시간 이벤트 수
+processing_outliers,339.0,처리시간 이상치 이벤트 수
+transition_wait_events,2129.0,공정 전이 대기 이벤트 수
+negative_wait_events,0.0,음수 대기시간 이벤트 수

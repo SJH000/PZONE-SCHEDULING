@@ -1,0 +1,3 @@
+﻿transition,count_raw,median_wait_sec,p90_wait_sec,max_wait_sec,outlier_count,count_clean,median_wait_sec_clean,p90_wait_sec_clean,max_wait_sec_clean
+A3->C2_FINISHED_STORAGE,10,7339.3305,19278.602499999994,36195.313,6,4,822.3045,2707.0995000000003,3425.775
+A3->AMR_LD250,76,215.556,14954.0285,51986.488,26,50,167.511,1628.3830000000005,3303.325

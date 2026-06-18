@@ -1,0 +1,11 @@
+﻿table,dump_rows_seen,rows_loaded
+prc_hist_tb,5830,5830
+prc_trns_tb,846932,846916
+prc_oee_tb,34265,34265
+strg_buf_in,187,187
+strg_buf_out,76,76
+strg_fns_in,42,42
+strg_fns_out,42,42
+std_eqpmn_tb,16,15
+std_strg_cd,9,9
+std_prdct_tb,5,4

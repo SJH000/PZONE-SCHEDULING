@@ -1,0 +1,31 @@
+﻿PRD_CD,PRD_SRL_NO,route,normalized_route,step_count,normalized_step_count,normal_route_flag,filter_reason
+PRD1000,PRD1000-260211039-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A5 > A7 > AMR_LD250,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A7,8,6,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260211040-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A5 > A6_KONA > A7 > A8 > A9_2 > AMR_LD250,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A6_KONA > A7 > A8 > A9_2,11,9,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260304001-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A6_KONA > A7 > A9_2 > A8 > A9_2 > A3 > AMR_LD250,C1_RAW_STORAGE > A1 > A2 > A4 > A6_KONA > A7 > A9_2 > A8 > A9_2 > A3,12,10,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260331007-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260331008-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3,C1_RAW_STORAGE > A1 > A2 > A3,5,4,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260331009-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3,C1_RAW_STORAGE > A1 > A2 > A3,5,4,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260402001-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260402002-0001,C1_RAW_STORAGE > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,5,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260407009-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260407010-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3,C1_RAW_STORAGE > A1 > A2 > A3,5,4,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260421001-0002,C1_RAW_STORAGE > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,5,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260426001-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD1000,PRD1000-260504001-0003,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260211034-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A6_TESLA > AMR_LD250,C1_RAW_STORAGE > A1 > A2 > A4 > A6_TESLA,7,5,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260211037-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A5 > A3,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A3,7,6,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260212017-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260304006-0001,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A6_TESLA > A7 > A9_2 > A3,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A6_TESLA > A7 > A9_2 > A3,9,9,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260304010-0001,C1_RAW_STORAGE > A1 > A2 > A4 > A6_TESLA > A7 > A9_2 > A8 > A9_2 > A3,C1_RAW_STORAGE > A1 > A2 > A4 > A6_TESLA > A7 > A9_2 > A8 > A9_2 > A3,10,10,False,deviates_from_product_normal_route
+PRD2000,PRD2000-260316003-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A4 > A5 > A6_TESLA > A7 > A9_2 > A8 > A9_2 > A8 > A3 > AMR_LD250 > C2_FINISHED_STORAGE,C1_RAW_STORAGE > A1 > A2 > A4 > A5 > A6_TESLA > A7 > A9_2 > A8 > A9_2 > A8 > A3,15,12,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260212007-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260213007-0001,C1_RAW_STORAGE > A1 > A2 > A7 > A5 > A3,C1_RAW_STORAGE > A1 > A2 > A7 > A5 > A3,6,6,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260225017-0002,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260304007-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A7 > A9_1 > A3,C1_RAW_STORAGE > A1 > A2 > A7 > A9_1 > A3,7,6,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260312007-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A5 > A9_1 > A3,C1_RAW_STORAGE > A1 > A2 > A5 > A9_1 > A3,7,6,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260414006-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260414007-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,6,5,False,deviates_from_product_normal_route
+PRD3001,PRD3001-260425002-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A3,C1_RAW_STORAGE > A1 > A2 > A3,5,4,False,deviates_from_product_normal_route
+PRD3002,PRD3002-260211042-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A7 > A9_1 > A5 > A9_1 > A3 > AMR_LD250,C1_RAW_STORAGE > A1 > A2 > A7 > A9_1 > A5 > A9_1 > A3,10,8,False,deviates_from_product_normal_route
+PRD3002,PRD3002-260212010-0001,C1_RAW_STORAGE > AMR_LD90 > A1 > A2 > A7 > A5 > A3,C1_RAW_STORAGE > A1 > A2 > A7 > A5 > A3,7,6,False,deviates_from_product_normal_route
+PRD3002,PRD3002-260225018-0001,C1_RAW_STORAGE > A1 > A2 > A3 > A3,C1_RAW_STORAGE > A1 > A2 > A3 > A3,5,5,False,deviates_from_product_normal_route

@@ -1,0 +1,6 @@
+﻿component,metric_value,unit,evidence,interpretation,certainty
+A3_PROCESS,62.2132,sec,A3 clean processing p90,A3 자체 처리시간은 후단 대기 대비 작다.,High
+AMR_DISPATCH_WAIT,1628.3830000000005,sec,A3 -> AMR_LD250 clean waiting p90,AMR 또는 후단 반출 대기 후보. 호출/배정 로그가 없어 배정 지연 확정은 불가.,Medium
+C2_STORAGE_WAIT,2707.0995000000003,sec,A3 -> C2 clean waiting p90,완제품 창고 적재/반출 대기 후보. C2 slot capacity 로그가 없어 포화 확정은 불가.,Medium
+BUFFER_ACCUMULATION,73.1,wip,BUFFER WIP p90,후단 배출 지연이 버퍼 누적으로 나타난다.,High
+FINISHED_STORAGE_ACCUMULATION,1.0,wip,FINISHED_STORAGE WIP p90,현재 로그상 완제품 창고 WIP 자체는 낮게 관측된다.,Medium
