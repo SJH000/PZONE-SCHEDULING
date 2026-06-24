@@ -1,7 +1,120 @@
 # P-ZONE Scheduling Project Handoff
 
 작성일: 2026-06-18  
+최종 업데이트: 2026-06-24  
 프로젝트 경로: `C:\Users\SHINJUNGHYUN\pzone_scheduling`
+
+## 0. 새 환경 / Claude Quick Start
+
+이 문서는 새 환경에서 Claude 또는 다른 담당자가 **이 파일만 먼저 읽고 다음 작업을 이어갈 수 있도록 만든 기준 문서**다. 현재 GitHub `main` 브랜치에는 1~7번 분석과 산출물이 업로드되어 있으며, 다음 작업은 8번 `LLM-assisted decision agent` 구현이다.
+
+### 0.1 저장소와 작업 위치
+
+GitHub 저장소:
+
+```text
+https://github.com/SJH000/PZONE-SCHEDULING.git
+```
+
+새 PC 또는 새 작업 환경에서는 아래처럼 시작한다.
+
+```powershell
+cd C:\Users\SHINJUNGHYUN
+git clone https://github.com/SJH000/PZONE-SCHEDULING.git pzone_scheduling
+cd C:\Users\SHINJUNGHYUN\pzone_scheduling
+```
+
+이미 폴더가 있다면 최신 상태로 맞춘다.
+
+```powershell
+cd C:\Users\SHINJUNGHYUN\pzone_scheduling
+git pull origin main
+```
+
+### 0.2 새 담당자가 가장 먼저 확인할 파일
+
+아래 순서로 보면 전체 흐름을 빠르게 파악할 수 있다.
+
+| 순서 | 파일 | 목적 |
+|---:|---|---|
+| 1 | `PZONE_SCHEDULING_HANDOFF.md` | 프로젝트 전체 인수인계 문서. 반드시 먼저 읽는다. |
+| 2 | `outputs/2026_06_14/PZONE_bottleneck_phase1_5_summary_7slides.pptx` | 1~5번 병목 분석 요약 PPT |
+| 3 | `outputs/2026_06_14/PZONE_rule_baseline_replay_7slides.pptx` | 6~7번 rule baseline/replay 공유 PPT |
+| 4 | `PZONE_6_7_TODO_PRESENTATION_GUIDE.md` | 6~7번 발표자용 상세 해설과 8번 LLM Todo 설명 |
+| 5 | `outputs/2026_06_14/rule_baseline/rule_baseline_report.md` | 6번 rule baseline 결과 |
+| 6 | `outputs/2026_06_14/rule_replay/rule_replay_report.md` | 7번 replay 결과 |
+| 7 | `outputs/2026_06_14/rule_simulation/rule_simulation_report.md` | 7번 counterfactual simulation 결과 |
+
+### 0.3 현재 완료 상태
+
+현재 완료된 작업:
+
+```text
+1. 데이터/분석 검증
+2. A3 병목 세분화
+3. A4 공유 레일 blocking 검증
+4. 제품군별 병목 분리
+5. 레일/AMR 이송 자원 분석 고도화
+6. Rule-based scheduling baseline 설계
+7. 로그 replay / counterfactual simulation 평가
+```
+
+다음에 해야 할 작업:
+
+```text
+8. LLM-assisted decision agent 설계 및 오프라인 평가
+```
+
+중요한 판단:
+
+- 바로 LLM fine-tuning을 시작하지 않는다.
+- 먼저 prompt 기반 LLM agent 구조를 구현한다.
+- LLM 출력은 JSON schema로 제한한다.
+- Constraint verifier로 불가능한 action과 근거 없는 확정 판단을 차단한다.
+- 기존 6~7번 replay/simulation framework로 rule baseline과 비교한다.
+- 그 결과가 쌓인 뒤 학습 데이터셋 생성과 fine-tuning 여부를 판단한다.
+
+### 0.4 새 환경에서 코드 실행 준비
+
+Python 의존성:
+
+```powershell
+pip install -r requirements.txt
+```
+
+기존 산출물을 재생성하려면 아래 순서로 실행한다. 단, 이미 GitHub에 산출물이 올라가 있으므로 **단순 확인 목적이면 재실행하지 않아도 된다.**
+
+```powershell
+python run_pzone_analysis.py
+python build_2026_06_14_package.py
+python build_phase_1_to_5_analysis.py
+python build_rule_based_baseline.py
+python build_rule_replay_simulation.py
+python build_rule_progress_ppt.py
+```
+
+8번 LLM agent를 새로 구현할 때는 기존 산출물 중 아래 파일을 우선 사용한다.
+
+```text
+outputs/2026_06_14/rule_baseline/data/state_5min.csv
+outputs/2026_06_14/rule_baseline/data/actions.csv
+outputs/2026_06_14/rule_baseline/data/rule_thresholds.csv
+outputs/2026_06_14/rule_replay/data/replay_effect_summary.csv
+outputs/2026_06_14/rule_simulation/data/simulation_effect_summary.csv
+```
+
+### 0.5 Claude에게 바로 줄 수 있는 다음 작업 지시
+
+새 담당자가 Claude에게 바로 일을 시킬 때는 아래 지시를 사용하면 된다.
+
+```text
+PZONE_SCHEDULING_HANDOFF.md를 먼저 읽고 현재 프로젝트 상태를 파악해라.
+현재 1~7번은 완료되어 있고, 다음 작업은 8번 LLM-assisted decision agent 설계다.
+바로 fine-tuning하지 말고, 먼저 5분 bucket state를 입력으로 받아 scheduling action JSON을 출력하는 prompt 기반 agent 구조를 구현해라.
+출력 action은 기존 rule baseline의 action set과 맞춰라.
+Constraint verifier를 구현해 schema 오류, 허용되지 않은 action, 데이터에 없는 AMR availability/C2 capacity/TRN_DEV_ID 물리 위치 확정 표현을 차단해라.
+이후 LLM action을 기존 rule baseline action과 비교하고, 기존 replay/simulation 방식으로 오프라인 평가하는 산출물을 outputs/2026_06_14/llm_agent/ 아래에 만들어라.
+```
 
 ## 1. 프로젝트 개요
 
@@ -822,6 +935,70 @@ LLM 구조 평가 후 학습을 진행한다면 세 가지 방향이 있다.
    - 목적: 데이터가 부족할 때 가장 안전한 운영 방식
    - 장점: 근거 수정, rule 변경, 제약 추가가 쉬움
    - 현재 프로젝트에는 이 방식이 가장 현실적인 1차안이다.
+
+### 15.9 8번 구현 체크리스트
+
+8번 작업은 아래 순서로 구현하는 것이 좋다.
+
+1. **입력 state 준비**
+   - `outputs/2026_06_14/rule_baseline/data/state_5min.csv`를 읽는다.
+   - 처음에는 전체 bucket을 다 쓰지 말고, action이 발생한 bucket과 병목 proxy가 큰 bucket 일부를 sample로 사용한다.
+   - 비교 기준으로 `outputs/2026_06_14/rule_baseline/data/actions.csv`를 함께 읽는다.
+
+2. **Prompt 생성**
+   - 각 bucket state를 LLM prompt로 변환한다.
+   - prompt에는 현재 state, 허용 action 목록, 데이터 한계, 출력 JSON schema를 포함한다.
+   - 산출물은 `outputs/2026_06_14/llm_agent/data/llm_prompts.jsonl`로 저장한다.
+
+3. **LLM action 생성**
+   - 초기에는 fine-tuning 없이 prompt 기반으로 실행한다.
+   - LLM 출력은 자유 문장이 아니라 JSON으로 받는다.
+   - 산출물은 `llm_actions_raw.jsonl`로 저장한다.
+   - API key나 모델 사용 환경이 없으면 실제 호출 대신 mock runner를 만들어 prompt와 expected schema만 검증한다.
+
+4. **Constraint verifier 구현**
+   - 허용 action인지 확인한다.
+   - JSON schema를 통과하는지 확인한다.
+   - `AMR availability`, `C2 capacity`, `TRN_DEV_ID` 물리 위치처럼 현재 데이터에 없는 정보를 확정 근거로 쓰면 reject한다.
+   - reject된 action은 `llm_actions_rejected.csv`, 통과한 action은 `llm_actions_verified.csv`로 저장한다.
+
+5. **Rule baseline과 비교**
+   - 같은 bucket에서 rule action과 LLM action이 일치하는지 계산한다.
+   - 일치율, action별 차이, LLM이 새로 제안한 action을 정리한다.
+   - 산출물은 `llm_vs_rule_comparison.csv`로 저장한다.
+
+6. **Replay / simulation 평가**
+   - 기존 `build_rule_replay_simulation.py`의 평가 방식을 재사용한다.
+   - LLM action에 대해 before/after metric과 counterfactual scenario를 계산한다.
+   - rule baseline보다 명확히 나쁜 action이 많은지 확인한다.
+
+7. **리포트 작성**
+   - `llm_agent_design.md`: prompt, schema, verifier 설계
+   - `llm_agent_evaluation_report.md`: rule baseline 대비 평가 결과
+   - `llm_training_dataset_plan.md`: 학습 데이터셋을 만들 경우의 구조와 조건
+
+권장 신규 스크립트:
+
+```text
+build_llm_decision_agent.py
+```
+
+권장 출력 폴더:
+
+```text
+outputs/2026_06_14/llm_agent/
+```
+
+8번의 완료 기준:
+
+```text
+- LLM 입력 prompt 파일 생성
+- LLM raw action 또는 mock action 생성
+- verifier 통과/실패 action 분리
+- rule baseline과 action 비교표 생성
+- LLM action replay/simulation 평가 생성
+- 학습을 바로 할지, prompt+verifier를 유지할지 판단하는 보고서 작성
+```
 
 ## 16. 다음 담당자가 가장 먼저 해야 할 일
 
