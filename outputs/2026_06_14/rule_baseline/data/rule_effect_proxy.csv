@@ -1,0 +1,5 @@
+﻿proxy,target_bucket_count,trigger_bucket_count,overlap_bucket_count,coverage,precision
+A3 rule vs high A3 downstream wait,330,10945,330,1.0,0.03015075376884422
+A4 rule vs A4 long window,127,127,127,1.0,1.0
+Rail rule vs rail congestion,1292,1292,1292,1.0,1.0
+Hold entry vs A4+rail combined congestion,87,87,87,1.0,1.0

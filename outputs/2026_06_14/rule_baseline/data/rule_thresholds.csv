@@ -1,0 +1,8 @@
+﻿metric,threshold,used_by,reason
+buffer_wip,70.0,PRIORITIZE_DISCHARGE,BUFFER WIP p90 73.1 근처에서 시작
+a3_to_amr_wait_p90_recent,1200.0,PRIORITIZE_DISCHARGE,A3->AMR high wait 감지
+a3_to_c2_wait_p90_recent,1800.0,PRIORITIZE_DISCHARGE,A3->C2 high wait 감지
+dispatch_amr_wait_p90_recent,900.0,DISPATCH_AMR,AMR dispatch 후보 감지
+a4_long_threshold_sec,686.9,CONTROL_WIP/HOLD_ENTRY,기존 A4 long threshold
+rail_event_count_p90,583.0,SCHEDULE_RAIL,현재 데이터 rail event p90
+active_rail_count,4.0,SCHEDULE_RAIL,TRN_DEV_ID=1~4 모두 active인 구간

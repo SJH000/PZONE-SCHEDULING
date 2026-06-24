@@ -17,7 +17,7 @@ P-ZONE 스케줄링 프로젝트의 목표는 제조 라인의 전체 공정 로
 - 병목 근거가 강한 A3, A4, A9, A7, A5, AMR/레일을 심층 분석한다.
 - 매뉴얼의 공정 의미를 함께 사용해 숫자만이 아니라 병목 발생 구조를 해석한다.
 
-현재까지는 **1~5번 분석/진단 단계**를 완료했다. 다음 단계는 **6번부터 시작되는 개선안 설계/검증 단계**다.
+현재까지는 **1~7번 단계**를 완료했다. 1~5번은 로그 기반 병목 분석/진단이고, 6~7번은 현장 추가정보 없이 가능한 범위의 rule-based scheduling baseline과 로그 리플레이/가정 기반 시뮬레이션 평가다. 다음 단계는 **8번 LLM-assisted decision agent 설계**다.
 
 ```text
 1. 데이터/분석 검증
@@ -79,6 +79,9 @@ data/pzone_analysis.sqlite
 | `build_2026_06_14_package.py` | 기존 분석 결과를 `outputs/2026_06_14` 패키지로 정리 |
 | `build_phase_1_to_5_analysis.py` | 1~5번 분석 심화, 추가 CSV/그래프/리포트/PPT 생성 |
 | `build_pzone_ppt.py` | 초기 7장 PPT 생성 스크립트 |
+| `build_rule_based_baseline.py` | 6번 rule-based scheduling baseline 생성, 5분 bucket state/action log/proxy 검증 산출 |
+| `build_rule_replay_simulation.py` | 7번 rule replay와 counterfactual simulation 평가 산출 |
+| `build_rule_progress_ppt.py` | 6~7번 진행 공유용 7장 PPT와 슬라이드별 발표 대본 생성 |
 | `requirements.txt` | Python 의존성 |
 
 ### 재현 명령
@@ -90,6 +93,9 @@ pip install -r requirements.txt
 python run_pzone_analysis.py
 python build_2026_06_14_package.py
 python build_phase_1_to_5_analysis.py
+python build_rule_based_baseline.py
+python build_rule_replay_simulation.py
+python build_rule_progress_ppt.py
 ```
 
 초기 버전 PPT만 다시 만들고 싶다면:
@@ -98,7 +104,7 @@ python build_phase_1_to_5_analysis.py
 python build_pzone_ppt.py
 ```
 
-현재 최종 PPT는 `build_phase_1_to_5_analysis.py`에서 생성된다.
+1~5번 요약 PPT는 `build_phase_1_to_5_analysis.py`에서 생성된다. 6~7번 진행 공유 PPT는 `build_rule_progress_ppt.py`에서 생성된다.
 
 ## 4. 주요 산출물 위치
 
@@ -170,6 +176,54 @@ outputs/2026_06_14/phase_1_to_5_analysis/
 | `outputs/2026_06_14/PZONE_bottleneck_phase1_5_summary_7slides.pptx` | 최종 7장 PPT, 발표자 메모 포함 |
 | `outputs/2026_06_14/PZONE_bottleneck_phase1_5_ppt_script.md` | PPT 발표 대본 |
 | `outputs/2026_06_14/PZONE_bottleneck_phase1_5_ppt_script_1min.md` | 각 슬라이드 1분용 대본 |
+
+### 6번 Rule Baseline 산출물
+
+```text
+outputs/2026_06_14/rule_baseline/
+```
+
+주요 파일:
+
+| 파일 | 설명 |
+|---|---|
+| `rule_baseline_report.md` | rule-based baseline 설계, trigger 결과, 한계 정리 |
+| `data/state_5min.csv` | 5분 bucket 단위 운영 state |
+| `data/actions.csv` | rule 적용 결과 action log |
+| `data/rule_trigger_counts.csv` | action별 trigger 횟수 |
+| `data/rule_effect_proxy.csv` | rule이 병목 구간을 얼마나 감지했는지에 대한 proxy 검증 |
+| `data/rule_thresholds.csv` | rule threshold와 기준값 |
+| `figures/*.png` | trigger count, timeline, A3/A4/Rail rule 비교 그래프 |
+
+6번 결과는 실제 제어 효과가 아니라, 기존 로그에서 병목 상황을 감지해 어떤 action 후보를 낼 수 있는지 확인한 것이다.
+
+### 7번 Replay / Simulation 산출물
+
+```text
+outputs/2026_06_14/rule_replay/
+outputs/2026_06_14/rule_simulation/
+```
+
+주요 파일:
+
+| 파일 | 설명 |
+|---|---|
+| `rule_replay/rule_replay_report.md` | action 발생 전후 60분 비교 결과 |
+| `rule_replay/data/replay_before_after.csv` | action trigger별 before/after metric |
+| `rule_replay/data/replay_effect_summary.csv` | action별 평균 before/after/delta 요약 |
+| `rule_replay/data/replay_action_quality.csv` | action별 개선/악화/관찰불가 품질 분류 |
+| `rule_simulation/rule_simulation_report.md` | 10%, 20%, 30% 완화 가정 기반 counterfactual 평가 |
+| `rule_simulation/data/counterfactual_scenarios.csv` | action별 가정 시나리오 결과 |
+| `rule_simulation/data/simulation_effect_summary.csv` | 시나리오별 기대 감소량 요약 |
+| `rule_replay/figures/*.png` | replay 평가 그래프 |
+| `rule_simulation/figures/*.png` | counterfactual simulation 그래프 |
+
+6~7번 진행 공유 PPT:
+
+| 파일 | 설명 |
+|---|---|
+| `outputs/2026_06_14/PZONE_rule_baseline_replay_7slides.pptx` | 6~7번 진행 공유용 7장 PPT, 발표자 메모 포함 |
+| `outputs/2026_06_14/PZONE_rule_baseline_replay_ppt_script_1min.md` | 각 슬라이드 1분용 대본 |
 
 ## 5. 정상 제품과 정상 Route 기준
 
@@ -579,119 +633,218 @@ PPT에는 슬라이드별 발표자 메모도 포함되어 있다.
 
 ## 15. 앞으로 해야 할 일
 
-### 15.1 분석 고도화
+현재 6번 rule-based baseline과 7번 replay/simulation은 완료되어 있다. 따라서 다음 핵심 작업은 **8번 LLM-assisted Decision Agent 설계**다. 단, 바로 fine-tuning부터 시작하지 않는다. 먼저 LLM agent 구조를 구현하고, 현재 rule baseline과 같은 로그 replay/simulation 방식으로 비교한 뒤 학습 여부를 판단한다.
 
-1. A3 병목 세분화 강화
-   - A3 자체 문제인지, AMR_LD250 배정 문제인지, C2 적재 문제인지 분리
-   - A3 후단 반출 우선순위 규칙 설계
-   - AMR dispatch 로그 확보 시 A3 -> AMR 호출 대기, AMR 이동, C2 적재 대기 구간을 분리
+### 15.1 왜 바로 학습하지 않는가
 
-2. A4 공유 레일 blocking 검증 강화
-   - A4 long window와 normal window 대조군 비교
-   - A4 지연이 다른 제품군 대기 증가와 실제로 연결되는지 검증
-   - `TRN_DEV_ID=1~4` 물리 위치 매핑 후 구간별 blocking 분석
+현재 데이터는 실제 설비 제어 결과가 아니라 과거 로그다. 따라서 어떤 action을 냈을 때 실제 현장이 얼마나 개선되는지에 대한 정답 label이 없다. 이 상태에서 바로 학습하면 모델은 실제 최적 행동을 배우는 것이 아니라, 사람이 만든 rule이나 과거 로그 패턴을 흉내 낼 가능성이 높다.
 
-3. 제품군별 병목 분리
-   - 핸들 계열 `PRD1000/PRD2000`
-   - 룸미러 계열 `PRD3001/PRD3002`
-   - 제품군별 병목 순위와 스케줄링 액션 분리
+현실적인 순서는 다음과 같다.
 
-4. 레일/AMR 해석 정교화
-   - 레일별 동시 사용률, idle rail 여부 계산
-   - AMR_LD90과 AMR_LD250 역할 분리
-   - AMR 사용 가능 상태와 호출 대기 상태 분리
+```text
+1. rule-based baseline 완료
+2. LLM decision agent 구조 구현
+3. prompt 기반 zero-shot / few-shot action 생성
+4. constraint verifier로 출력 검증
+5. rule baseline과 동일한 replay/simulation 평가
+6. 실패 케이스와 성공 케이스 수집
+7. 필요할 때 학습 데이터셋 생성
+8. fine-tuning 또는 preference tuning 검토
+```
 
-### 15.2 개선안 설계
+### 15.2 LLM Agent 입력 State
 
-다음 단계는 rule-based scheduling baseline 설계다.
+입력은 6번에서 만든 `state_5min.csv`를 기본으로 사용한다. LLM에 모든 raw log를 직접 넣지 않고, 5분 bucket 단위의 요약 state를 넣는다.
 
-후보 규칙:
+필수 입력 예시:
 
-| 상황 | 액션 |
+```json
+{
+  "bucket_5min": "2026-...",
+  "buffer_wip": 82,
+  "finished_storage_wip": 14,
+  "a3_completed_count": 3,
+  "a3_to_amr_wait_p90_recent": 1450,
+  "a3_to_c2_wait_p90_recent": 2100,
+  "a4_active_count": 1,
+  "a4_long_count": 1,
+  "rail_event_count": 620,
+  "active_rail_count": 4,
+  "handle_rail_events": 310,
+  "room_mirror_rail_events": 280,
+  "dominant_product_family": "HANDLE"
+}
+```
+
+입력에 포함해야 하는 보조 정보:
+
+- 허용 action 목록
+- action별 의미
+- 현재 데이터 한계
+- 정상 route 기준
+- 제품군 정의
+- 병목 판단 기준
+- 출력 JSON schema
+
+### 15.3 LLM Agent 출력 Schema
+
+LLM 출력은 자유 문장이 아니라 검증 가능한 JSON으로 제한한다.
+
+권장 출력 schema:
+
+```json
+{
+  "bucket_5min": "string",
+  "action": "PRIORITIZE_DISCHARGE | DISPATCH_AMR | CONTROL_WIP | SCHEDULE_RAIL | HOLD_ENTRY | NO_ACTION",
+  "target_process": "A3 | A4 | C2 | BUFFER | TR01 | AMR_LD250 | NONE",
+  "target_resource": "string",
+  "product_family_context": "HANDLE | ROOM_MIRROR | MIXED | UNKNOWN",
+  "priority": "High | Medium | Low",
+  "confidence": "High | Medium | Low",
+  "reason": "string",
+  "expected_effect": "string",
+  "known_limitations": ["string"]
+}
+```
+
+주의할 점:
+
+- `AMR availability`, `C2 capacity`, `TRN_DEV_ID` 물리 위치는 현재 데이터에 없으므로 확정 표현하면 안 된다.
+- LLM은 “가능성이 있다”, “우선 검증해야 한다” 수준으로 표현해야 한다.
+- action은 기존 rule baseline의 action set과 맞춰야 replay/simulation 비교가 가능하다.
+
+### 15.4 Constraint Verifier
+
+LLM 출력 뒤에는 반드시 검증기를 둔다. 이 검증기는 LLM이 그럴듯하지만 불가능한 action을 내는 것을 막는 역할을 한다.
+
+검증 항목:
+
+| 검증 항목 | 설명 |
 |---|---|
-| A3 WIP가 높음 | `PRIORITIZE_DISCHARGE` |
-| AMR_LD250 사용 가능 | `DISPATCH_AMR` |
-| A4 주변 WIP가 높음 | `CONTROL_WIP` |
-| 레일 혼잡도 높음 | `SCHEDULE_RAIL` |
-| A4/C2 포화 가능성 높음 | `HOLD_ENTRY` |
-| 물리 제약이 강함 | `REQUIRE_PHYSICAL_CHANGE` |
+| action whitelist | 허용된 action인지 확인 |
+| target validation | target process/resource가 실제 분석 범위에 있는지 확인 |
+| confidence validation | 데이터 한계가 큰 action은 `High` confidence를 금지 |
+| missing-field guard | AMR availability, C2 capacity 등 없는 정보를 확정 근거로 쓰지 못하게 함 |
+| conflict check | 같은 bucket에서 `HOLD_ENTRY`와 무리한 반출 action이 충돌하지 않는지 확인 |
+| route guard | 정상 route를 위반하는 제품 이동 지시를 생성하지 않도록 제한 |
+| output schema check | JSON schema를 통과하지 못하면 action을 폐기하거나 `NO_ACTION` 처리 |
 
-### 15.3 효과 검증
+Verifier 결과는 별도 컬럼으로 남긴다.
 
-rule-based baseline을 만든 뒤 기존 로그로 리플레이 또는 시뮬레이션을 수행한다.
+```text
+llm_action_raw.csv
+llm_action_verified.csv
+llm_action_rejected.csv
+```
 
-검증 지표:
+### 15.5 학습 데이터셋은 언제, 어떻게 만들 것인가
 
-- 전체 throughput
-- 제품군별 throughput
-- A3 후단 대기 p90
-- A4 처리/대기 p90
-- BUFFER WIP p90
-- AMR 대기 p90
-- 레일 active bucket ratio
-- 제품군별 공정 간 대기 p90
+초기에는 학습하지 않고 prompt 기반으로 테스트한다. 학습은 아래 조건이 충족될 때 검토한다.
 
-비교 시나리오:
+- LLM이 rule baseline보다 나은 판단을 하는 bucket이 일부 확인됨
+- LLM이 반복적으로 틀리는 failure pattern이 수집됨
+- 사람 또는 도메인 전문가가 일부 action label을 검수할 수 있음
+- replay/simulation 평가에서 action 품질을 비교할 수 있음
 
-1. 현재 로그 기준 baseline
-2. A3 우선 반출 규칙 적용
-3. A4 WIP cap 적용
-4. 레일 혼잡 시 진입 hold 적용
-5. 제품군별 우선순위 적용
+학습 데이터셋 후보:
 
-### 15.4 LLM-assisted Decision Agent 설계
+| 필드 | 내용 |
+|---|---|
+| input | 5분 bucket state, 최근 60분 rolling metric, 제품군 context |
+| weak_label | rule baseline이 낸 action |
+| llm_action | prompt 기반 LLM이 낸 action |
+| verified_action | constraint verifier 통과 후 action |
+| outcome_proxy | replay/simulation 기반 개선/악화 proxy |
+| human_label | 사람이 수정하거나 승인한 action |
+| rationale | action 선택 이유 |
 
-rule-based baseline이 정리된 뒤 LLM agent를 설계한다.
+초기 데이터셋은 `actions.csv`를 weak label로 사용할 수 있다. 다만 이것만으로 학습하면 rule을 복제하는 모델이 되므로, 반드시 rule 실패 케이스, LLM 대안 케이스, 사람 검수 label을 추가해야 한다.
 
-필요 구성:
+### 15.6 8번 구현 산출물 제안
 
-1. 입력 state 정의
-   - 공정별 WIP
-   - 제품군
-   - 현재 대기시간
-   - AMR 상태
-   - 레일 상태
-   - A3/A4 주변 queue
+다음 구현에서는 아래 폴더를 새로 만든다.
 
-2. 출력 JSON schema 정의
-   - action
-   - target equipment
-   - target product/serial
-   - priority
-   - reason
-   - expected effect
+```text
+outputs/2026_06_14/llm_agent/
+```
 
-3. constraint verifier 정의
-   - 정상 route 위반 금지
-   - AMR 중복 배정 금지
-   - 설비 capacity 초과 금지
-   - 물리적으로 불가능한 이동 금지
+권장 산출물:
 
-4. 평가
-   - rule-based baseline과 비교
-   - 대기시간/WIP/throughput 개선율 비교
-   - 불가능한 action 발생률 측정
+| 파일 | 설명 |
+|---|---|
+| `data/llm_input_states.csv` | LLM에 넣을 5분 bucket state |
+| `data/llm_prompts.jsonl` | bucket별 prompt |
+| `data/llm_actions_raw.jsonl` | LLM 원본 출력 |
+| `data/llm_actions_verified.csv` | verifier 통과 후 action |
+| `data/llm_actions_rejected.csv` | 폐기된 action과 사유 |
+| `data/llm_vs_rule_comparison.csv` | LLM action과 rule baseline action 비교 |
+| `data/llm_replay_effect_summary.csv` | LLM action replay 평가 요약 |
+| `llm_agent_design.md` | agent 구조, prompt, schema, verifier 설계 문서 |
+| `llm_agent_evaluation_report.md` | rule baseline 대비 평가 결과 |
+| `figures/*.png` | LLM vs Rule action count, agreement rate, replay metric 그래프 |
+
+### 15.7 8번 평가 기준
+
+LLM agent가 의미 있는지 판단하려면 다음을 본다.
+
+- rule baseline과 action이 얼마나 일치하는가
+- rule baseline과 다르게 판단한 bucket에서 이유가 타당한가
+- verifier rejection rate가 너무 높지 않은가
+- `PRIORITIZE_DISCHARGE`, `CONTROL_WIP`, `SCHEDULE_RAIL` 같은 주요 action을 데이터 상황에 맞게 내는가
+- replay/simulation proxy에서 rule 대비 악화되지 않는가
+- 없는 정보를 근거로 확정 표현하지 않는가
+
+1차 성공 기준:
+
+```text
+- JSON schema 통과율 95% 이상
+- verifier rejection rate 10~20% 이하
+- rule baseline과 주요 병목 bucket에서 큰 충돌 없음
+- LLM이 rule과 다른 action을 낸 경우 사람이 읽을 수 있는 타당한 reason 제공
+- replay/simulation proxy가 rule baseline보다 명확히 나쁘지 않음
+```
+
+### 15.8 이후 학습 방향
+
+LLM 구조 평가 후 학습을 진행한다면 세 가지 방향이 있다.
+
+1. **Fine-tuning**
+   - 목적: state를 보고 안정적으로 action JSON을 생성
+   - 데이터: 검수된 `state -> verified_action` 쌍
+   - 한계: 실제 최적 제어 label이 없으면 rule 복제에 가까워질 수 있음
+
+2. **Preference tuning**
+   - 목적: 같은 state에서 더 나은 action/rationale을 선호하도록 학습
+   - 데이터: `(state, action A, action B, preferred)` 형태
+   - 장점: rule action과 LLM 대안 action을 비교하기 좋음
+
+3. **학습 없이 prompt + verifier 유지**
+   - 목적: 데이터가 부족할 때 가장 안전한 운영 방식
+   - 장점: 근거 수정, rule 변경, 제약 추가가 쉬움
+   - 현재 프로젝트에는 이 방식이 가장 현실적인 1차안이다.
 
 ## 16. 다음 담당자가 가장 먼저 해야 할 일
 
 우선순위는 아래 순서가 좋다.
 
-1. `outputs/2026_06_14/PZONE_bottleneck_phase1_5_summary_7slides.pptx`를 열어 전체 결론을 확인한다.
-2. `outputs/2026_06_14/PZONE_bottleneck_phase1_5_ppt_script_1min.md`를 읽어 발표용 요약 흐름을 이해한다.
-3. `outputs/2026_06_14/phase_1_to_5_analysis/required_field_gap_report.md`를 확인해 현장에 요청할 정보를 정리한다.
-4. 현장 담당자에게 `TRN_DEV_ID=1~4` 물리 위치, AMR dispatch 로그, C2 slot capacity 정보를 요청한다.
-5. 정보가 확보되면 A3와 A4 분석을 재실행/보강한다.
-6. 그 다음 rule-based scheduling baseline 설계로 넘어간다.
+1. `outputs/2026_06_14/PZONE_bottleneck_phase1_5_summary_7slides.pptx`를 열어 1~5번 병목 분석 결론을 확인한다.
+2. `outputs/2026_06_14/PZONE_rule_baseline_replay_7slides.pptx`를 열어 6~7번 rule baseline/replay/simulation 결과를 확인한다.
+3. `outputs/2026_06_14/rule_baseline/rule_baseline_report.md`를 읽어 rule trigger 기준과 action log 생성 방식을 확인한다.
+4. `outputs/2026_06_14/rule_replay/rule_replay_report.md`와 `outputs/2026_06_14/rule_simulation/rule_simulation_report.md`를 읽어 rule 효과 가능성과 한계를 확인한다.
+5. 8번 LLM agent 구현 시 `state_5min.csv`를 입력으로, `actions.csv`를 rule baseline 비교 대상으로 사용한다.
+6. 먼저 prompt 기반 agent와 constraint verifier를 구현하고, 그 뒤에 학습 데이터셋 생성 여부를 판단한다.
 
 ## 17. 주의사항
 
-- 현재 분석은 실제 설비 제어가 아니라 로그 기반 병목 진단이다.
+- 현재 분석은 실제 설비 제어가 아니라 로그 기반 병목 진단과 오프라인 rule 평가다.
+- 6~7번 결과는 실제 개선 효과 확정이 아니라 “rule 후보가 병목 상황을 감지하는지”와 “가정 기반 효과 가능성”을 본 것이다.
 - `A3 -> C2` 전이를 물리적 직행으로 해석하지 말아야 한다.
 - `A7 -> A5`는 룸미러 계열 정상 route다.
 - `TRN_DEV_ID=1~4`는 이송 장치 ID이지, 현재 문서만으로 물리 구간명이 아니다.
 - A4 blocking은 강한 후보지만 확정 원인은 아니다.
 - AMR 지연과 C2 포화는 현재 데이터만으로 분리 확정할 수 없다.
-- 병목 점수는 상대 점수이며 절대 성능 점수가 아니다.
+- LLM agent는 현재 데이터에 없는 AMR availability, C2 slot capacity, rail physical segment를 확정 근거로 쓰면 안 된다.
+- 병목 점수와 replay/simulation 결과는 상대 비교 및 proxy 평가이며 절대 성능 점수가 아니다.
 
 ## 18. 한 줄 요약
 
@@ -701,5 +854,7 @@ rule-based baseline이 정리된 뒤 LLM agent를 설계한다.
 P-ZONE 병목은 A3 후단 반출에서 가장 강하게 나타나고,
 A4는 복합 CELL 처리시간과 공유 레일 overlap 때문에 blocking 후보로 보인다.
 제품군별 route 차이가 크므로 핸들/룸미러를 분리해 분석해야 하며,
-다음 단계는 현장 매핑 정보를 보강한 뒤 rule-based scheduling baseline을 설계하는 것이다.
+현재는 rule-based baseline과 replay/simulation 평가까지 완료했다.
+다음 단계는 학습부터 시작하지 않고 LLM decision agent 구조와 constraint verifier를 먼저 구현한 뒤,
+rule baseline과 같은 오프라인 평가 방식으로 비교하고 학습 필요성을 판단하는 것이다.
 ```

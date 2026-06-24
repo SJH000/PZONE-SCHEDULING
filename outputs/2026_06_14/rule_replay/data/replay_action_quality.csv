@@ -1,0 +1,7 @@
+﻿action,action_group,window_status,metric_row_count,trigger_bucket_count
+CONTROL_WIP,A4,ok,254,127
+DISPATCH_AMR,A3,ok,42,14
+HOLD_ENTRY,A4,ok,174,87
+PRIORITIZE_DISCHARGE,A3,insufficient_window,18,10945
+PRIORITIZE_DISCHARGE,A3,ok,32817,10945
+SCHEDULE_RAIL,RAIL,ok,2584,1292

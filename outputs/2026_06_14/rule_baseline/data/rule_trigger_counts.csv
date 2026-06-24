@@ -1,0 +1,7 @@
+﻿action,trigger_count,bucket_count,confidence_modes
+PRIORITIZE_DISCHARGE,10945,10945,High
+SCHEDULE_RAIL,1292,1292,Low
+CONTROL_WIP,127,127,Medium
+HOLD_ENTRY,87,87,Medium
+DISPATCH_AMR,14,14,Medium
+NO_ACTION,12772,12772,
